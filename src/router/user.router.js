@@ -9,9 +9,9 @@ const {
 } = require('../middleware/user.middleware')
 
 // 路径 - 中间件处理的 映射(没有app.post/get，只有app.use)
-const userRouter = new Router({prefix: '/users'})
+const userRouter = new Router({ prefix: '/users' })
 
-userRouter.post('/', verifyUser, handlePassword,create)
+userRouter.post('/', verifyUser, handlePassword, create)
 
 // userRouter.post('/', (ctx, next)=>{
 //   console.log('接受到了请求', ctx)

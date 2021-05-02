@@ -1,10 +1,10 @@
 const errorTypes = require('../constants/error-types')
 
-const errorHandler = (error, ctx) =>{
+const errorHandler = (error, ctx) => {
   console.log('errorHandler', error, ctx.request.body)
   let status, message;
 
-  switch(error.message){
+  switch (error.message) {
     case errorTypes.NAME_OR_PASSWORD_IS_REQUIRED:
       status = 400; // Bad Request
       message = "用户名或者密码不能为空～"
@@ -21,12 +21,20 @@ const errorHandler = (error, ctx) =>{
       status = 400; // 参数错误
       message = "密码不正确～"
       break;
+    case errorTypes.UNAUTHORIZATION:
+      status = 401; // 参数错误
+      message = "无效token～"
+      break;
+    case errorTypes.UNPERMITION:
+      status = 401; // 参数错误
+      message = "您不具备操作权限"
+      break;
     default:
       status = 404
       message = "NOT FOUND"
 
   }
-  
+
   ctx.status = status
   ctx.body = message
 }

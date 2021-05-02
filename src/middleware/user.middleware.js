@@ -8,6 +8,7 @@ class UserMiddleware {
 const verifyUser = async (ctx, next) => {
   // 1.获取用户名密码
   const { name, password } = ctx.request.body;
+  console.log('处理注册借口', ctx.request.body)
 
   // 2.判断用户名或者密码不能空
   if (!name || !password) {
