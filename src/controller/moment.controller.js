@@ -15,8 +15,10 @@ class MomentController {
 
   async detail(ctx, next) {
     //1.获取momentId
-    const momentId = ctx.params.momentId
-    console.log('ctx.query', ctx.query)
+    console.log('')
+    // const momentId = ctx.params.momentId
+    const { momentId } = ctx.request.body
+    console.log('detail---ctx.query', ' ctx.request.body', ctx.request.body, 'ctx.query', ctx.query, 'ctx.param', ctx.params)
 
     //2.根据id去查询这条数据
     const result = await momentService.getMomentById(momentId)
@@ -51,6 +53,25 @@ class MomentController {
     const result = await momentService.remove(momentId)
     console.log('删除的结果', result)
     ctx.body = result
+  }
+
+  async addLabels(ctx, next) {
+    // 1.获取标签和动态id
+    const { momentId } = ctx.request.body
+    const labels = ctx.labels // 处理过的label，加了数据库id
+    console.log('addLabels--labels', ctx.labels)
+    console.log('addLabels--user', ctx.user)
+    console.log('addLabels', labels, 'momentId', momentId)
+
+    // 2.添加所有标签
+    for (const label of labels) {
+      // 2.1 判断标签是否已经和动态有过关系
+      const isExist = await momentService.hasLabel(momentId, label.id);
+      if (!isExist) {
+        await momentService.addLabel(momentId, label.id)
+      }
+    }
+    ctx.body = "给动态添加标签成功 ～"
   }
 }
 

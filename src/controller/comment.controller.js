@@ -32,6 +32,13 @@ class ComentController {
     ctx.body = result
   }
 
+  // 获取评论列表
+  async list(ctx, next){
+    const { momentId } = ctx.request.body
+    const result = await commentService.getCommentByMomentId(momentId)
+    ctx.body = result
+  }
+
 }
 
 module.exports = new ComentController()

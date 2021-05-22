@@ -65,7 +65,7 @@ const verifyAuth = async (ctx, next) => {
 
 // 1.很多内容要验证权限： 修改/删除动态，修改/删除评论
 // 2.接口：业务接口/后端管理系统  一对一：user -> role 多对多：role -> menu(删除动态/修改动态)
-// 动态判断权限： tableName + [tableName + "Id"]
+// 动态判断权限(根据表名称)： tableName + [tableName + "Id"]
 const verifyPermission = (tableName) => {
   return async (ctx, next) => {
     // 1.获取参数
@@ -82,6 +82,7 @@ const verifyPermission = (tableName) => {
       if (!isPermission) throw new Error()
       await next()
     } catch (err) {
+      console.log('verifyPermission---err',err)
       const error = new Error(errorTypes.UNPERMITION)
       ctx.app.emit('error', error, ctx)
     }
